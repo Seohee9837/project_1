@@ -7,6 +7,8 @@ import datetime
 from tqdm import tqdm
 import fake_useragent #pyinstaller 사용 불가 우씨...
 from openpyxl.cell.cell import ILLEGAL_CHARACTERS_RE
+import re
+from collections import Counter
 
 #정적 크롤러
 def CWBS(page_start, page_end, url, start_date, end_date, stock_code, target_date):
@@ -115,6 +117,12 @@ def CWBS(page_start, page_end, url, start_date, end_date, stock_code, target_dat
     #CSV로 저장 (필터링된 데이터만)
     filtered_df.to_csv(f"data/{stock_code}_{target_date}_filtered.csv", index = False, sep='\t')
     
+    # 키워드 분석 실행
+    extract_top_keywords(filtered_df, stock_code, target_date)
+    
+    # 통계 파일 생성
+    create_statistics_file(stock_code, target_date, len(df), len(filtered_df), error_count, start_date, end_date)
+    
     #디버깅용 시간 체크
     end_time = time.time()
     sec = (end_time - start_time)
@@ -123,3 +131,89 @@ def CWBS(page_start, page_end, url, start_date, end_date, stock_code, target_dat
     file = open("log.txt", "a", encoding="UTF-8") #마무리 로그
     file.write(f"걸린 시간 : {result_t[0]}, error_count : {error_count}")
     file.close()
+
+def create_statistics_file(stock_code, target_date, total_crawled, filtered_count, error_count, start_date, end_date):
+    """크롤링 통계 정보를 저장하는 파일을 생성합니다."""
+    current_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    
+    stats_content = f"""네이버 금융 게시글 크롤링 통계
+==========================================
+생성 시간: {current_time}
+종목 코드: {stock_code}
+검색 기간: {start_date} ~ {end_date}
+대상 날짜: {target_date}
+
+크롤링 결과:
+- 전체 크롤링된 게시글 수: {total_crawled:,}개
+- 필터링된 게시글 수 ({target_date}): {filtered_count:,}개
+- 에러 발생 수: {error_count:,}개
+- 성공률: {((total_crawled - error_count) / total_crawled * 100):.1f}% (에러 제외)
+
+파일 저장 위치:
+- 필터링된 데이터: data/{stock_code}_{target_date}_filtered.csv
+- 로그 파일: log.txt
+
+=========================================="""
+    
+    # 통계 파일 저장
+    stats_filename = f"data/{stock_code}_{target_date}_statistics.txt"
+    with open(stats_filename, "w", encoding="UTF-8") as f:
+        f.write(stats_content)
+    
+    print(f"\n📊 크롤링 통계가 저장되었습니다: {stats_filename}")
+    print(f"총 크롤링된 게시글 수: {total_crawled:,}개")
+    print(f"필터링된 게시글 수: {filtered_count:,}개")
+
+def extract_top_keywords(df, stock_code, target_date):
+    """크롤링된 데이터에서 가장 많이 언급된 단어 10개를 추출합니다."""
+    # 제목과 본문을 합쳐서 분석
+    all_text = ""
+    for _, row in df.iterrows():
+        all_text += str(row['title']) + " " + str(row['content']) + " "
+    
+    # 한글 단어 추출 (2글자 이상)
+    korean_words = re.findall(r'[가-힣]{2,}', all_text)
+    
+    # 불용어 목록 (제거할 단어들)
+    stop_words = {
+        '있습니다', '합니다', '입니다', '됩니다', '됩니다', '됩니다', '됩니다', '됩니다',
+        '그리고', '하지만', '그런데', '또한', '또는', '그리고', '하지만', '그런데',
+        '이것', '저것', '그것', '무엇', '어떤', '어떻게', '언제', '어디서',
+        '오늘', '내일', '어제', '지금', '이제', '그때', '언제나',
+        '매우', '너무', '정말', '진짜', '아주', '훨씬', '더욱',
+        '보고', '있다', '없다', '하다', '되다', '이다', '있다', '없다',
+        '이런', '저런', '그런', '어떤', '무슨', '어느', '몇',
+        '때문', '위해', '통해', '따라', '관련', '대한', '있는', '없는',
+        '하는', '되는', '있는', '없는', '하는', '되는', '있는', '없는',
+        '있었다', '것이다'
+    }
+    
+    # 불용어 제거
+    filtered_words = [word for word in korean_words if word not in stop_words and len(word) >= 2]
+    
+    # 단어 빈도 계산
+    word_counts = Counter(filtered_words)
+    
+    # 상위 10개 단어 추출
+    top_10_words = word_counts.most_common(10)
+    
+    # 결과 출력
+    print(f"\n🔍 {stock_code} 종목의 상위 키워드 10개 ({target_date})")
+    print("=" * 50)
+    for i, (word, count) in enumerate(top_10_words, 1):
+        print(f"{i:2d}. {word:<10} - {count:3d}회 언급")
+    
+    # 키워드 파일 저장
+    keyword_filename = f"data/{stock_code}_{target_date}_keywords.txt"
+    with open(keyword_filename, "w", encoding="UTF-8") as f:
+        f.write(f"{stock_code} 종목 상위 키워드 분석 ({target_date})\n")
+        f.write("=" * 50 + "\n")
+        f.write(f"총 게시글 수: {len(df)}개\n\n")
+        f.write("상위 10개 키워드:\n")
+        for i, (word, count) in enumerate(top_10_words, 1):
+            f.write(f"{i:2d}. {word:<10} - {count:3d}회 언급\n")
+    
+    print(f"\n📝 키워드 분석 결과가 저장되었습니다: {keyword_filename}")
+    print(f"총 게시글 수: {len(df)}개")
+    
+    return top_10_words
