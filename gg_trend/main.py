@@ -1,8 +1,9 @@
 # main.py
-from tabulate import tabulate
 from company_utils import get_cp_name_from_csv
 from trend_api import get_trend_df
 from datetime import datetime, timedelta
+import matplotlib.pyplot as plt
+import pandas as pd
 
 # 사용자로부터 종목코드 입력 받기
 stock_code = input("종목코드를 입력하세요 (예: 005930): ").strip()
@@ -26,7 +27,15 @@ except ValueError as e:
 # 트렌드 데이터 불러오기
 try:
     df_trend = get_trend_df(cp_name, end_date, start_date)  # 주의: 네이버 API는 end_date가 과거
-    print(f"\n📈 [{cp_name}] 검색 트렌드 데이터")
-    print(tabulate(df_trend, headers='keys', tablefmt='fancy_grid'))
+
+    plt.figure(figsize=(12, 6))
+    plt.plot(df_trend.index, df_trend['ratio'], marker='o', linestyle='-')  # ✅ index를 x축으로 사용
+    plt.title(f"{cp_name} 검색 트렌드")
+    plt.xlabel("날짜")
+    plt.ylabel("검색 비율 (%)")
+    plt.grid(True)
+    plt.tight_layout()
+    plt.show()
+
 except Exception as e:
     print("❌ API 호출 실패:", e)
