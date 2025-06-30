@@ -1,7 +1,8 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, Query
 from services.stock_service import (
     get_forum_page_data,
-    get_detail_page_data
+    get_detail_page_data,
+    search_company
 )
 
 router = APIRouter()

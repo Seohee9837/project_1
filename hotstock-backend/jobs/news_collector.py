@@ -17,7 +17,7 @@ OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 openai_client = OpenAI(api_key=OPENAI_API_KEY)
 
 # 📂 상대 경로 (news_collector.py 기준)
-CSV_PATH = "../../2024_final_ticker_list.csv"
+CSV_PATH = "../data/2024_final_ticker_list.csv"
 OUTPUT_PATH = "../data/news.csv"
 
 # 📁 모든 티커 불러오기

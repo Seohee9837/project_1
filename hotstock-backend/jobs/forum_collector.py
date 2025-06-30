@@ -189,7 +189,7 @@ def run_analysis(stock_code):
     result_df = pd.DataFrame([[stock_code] + keywords], columns=['ticker'] + [f"keyword{i+1}" for i in range(len(keywords))])
     return result_df
 
-def collect_forum_keywords(source_csv_path="../../2024_final_ticker_list.csv", limit=3):
+def collect_forum_keywords(source_csv_path="../data/2024_final_ticker_list.csv", limit=3):
     try:
         ticker_df = pd.read_csv(source_csv_path, dtype={"ticker": str})
         if 'ticker' not in ticker_df.columns:
