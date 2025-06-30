@@ -9,11 +9,11 @@ from typing import Dict, Any
 COMPANY_CSV = "./data/2024_final_ticker_list.csv"
 # 검색어 자동 완성 기능
 def search_company(query: str, limit: int = 10):
-    df = pd.read_csv(COMPANY_CSV)
+    df = pd.read_csv(COMPANY_CSV, dtype={"ticker":str})
     result = df[df['corp_name'].str.contains(query, na=False)]
     return result.head(limit).to_dict(orient="records")
 
-# 종토방, 뉴스 키워드 횟수랑 단어 분리리
+# 종토방, 뉴스 키워드 횟수랑 단어 분리
 def parse_keywords_row(row):
     keywords = []
     for i in range(1, 21):
@@ -42,7 +42,7 @@ def get_forum_page_data(ticker: str):
 
     # ✅ 구글 트렌드 - 기업명 추출 후 get_trend_df 호출
     try:
-        cp_name = get_cp_name_from_csv(ticker, "company_with_corp_code.csv")
+        cp_name = get_cp_name_from_csv(ticker, "./data/2024_final_ticker_list.csv")
         today = datetime.today()
         start_date = today.strftime("%Y-%m-%d")
         end_date = (today - timedelta(days=365)).strftime("%Y-%m-%d")
