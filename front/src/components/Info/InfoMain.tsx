@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   LineChart,
   Line,
@@ -6,240 +7,486 @@ import {
   YAxis,
   Tooltip,
   ResponsiveContainer,
-  BarChart,
+  ReferenceArea,
   Bar,
   AreaChart,
   Area,
-  ReferenceArea,
 } from "recharts";
+import { FaHeart, FaHome, FaComments, FaChartBar } from "react-icons/fa";
 import "../../styles/info.css";
 
-// 예시 데이터
+// 예시 데이터 (실제 데이터 연동 필요)
 const priceData = [
   {
-    date: "2024-06-01",
-    close: 72000,
-    volume: 1200000,
-    movingAvg5: 71500,
-    movingAvg20: 70000,
-    RSI: 72,
-  },
-  {
-    date: "2024-06-02",
-    close: 73000,
-    volume: 1300000,
-    movingAvg5: 72000,
-    movingAvg20: 70500,
-    RSI: 75,
-  },
-  {
-    date: "2024-06-03",
-    close: 74000,
-    volume: 1100000,
-    movingAvg5: 72500,
-    movingAvg20: 71000,
-    RSI: 78,
-  },
-  {
-    date: "2024-06-04",
-    close: 73500,
-    volume: 900000,
-    movingAvg5: 73000,
-    movingAvg20: 71500,
-    RSI: 68,
-  },
-  {
-    date: "2024-06-05",
-    close: 75000,
-    volume: 1500000,
-    movingAvg5: 73500,
-    movingAvg20: 72000,
-    RSI: 80,
-  },
-  {
-    date: "2024-06-06",
-    close: 76000,
-    volume: 1700000,
-    movingAvg5: 74400,
-    movingAvg20: 72800,
-    RSI: 82,
-  },
-  {
-    date: "2024-06-07",
-    close: 77000,
-    volume: 1600000,
-    movingAvg5: 75200,
-    movingAvg20: 73500,
-    RSI: 85,
-  },
-  {
-    date: "2024-06-08",
-    close: 76500,
-    volume: 1400000,
-    movingAvg5: 75600,
-    movingAvg20: 74000,
-    RSI: 78,
-  },
-  {
-    date: "2024-06-09",
-    close: 75500,
-    volume: 1200000,
-    movingAvg5: 76000,
-    movingAvg20: 74500,
-    RSI: 65,
-  },
-  {
-    date: "2024-06-10",
-    close: 75000,
-    volume: 1100000,
-    movingAvg5: 75800,
-    movingAvg20: 74800,
+    month: "1월",
+    price: 68000,
+    ma20: 67000,
+    ma60: 66000,
     RSI: 60,
+    volume: 1000000,
+  },
+  {
+    month: "2월",
+    price: 70000,
+    ma20: 68000,
+    ma60: 66500,
+    RSI: 62,
+    volume: 1200000,
+  },
+  {
+    month: "3월",
+    price: 72000,
+    ma20: 69000,
+    ma60: 67000,
+    RSI: 65,
+    volume: 1300000,
+  },
+  {
+    month: "4월",
+    price: 71000,
+    ma20: 70000,
+    ma60: 67500,
+    RSI: 67,
+    volume: 1100000,
+  },
+  {
+    month: "5월",
+    price: 75000,
+    ma20: 71000,
+    ma60: 68000,
+    RSI: 70,
+    volume: 1500000,
+  },
+  {
+    month: "6월",
+    price: 78000,
+    ma20: 72000,
+    ma60: 69000,
+    RSI: 72,
+    volume: 1700000,
+  },
+  {
+    month: "7월",
+    price: 77000,
+    ma20: 73000,
+    ma60: 70000,
+    RSI: 74,
+    volume: 1600000,
+  },
+  {
+    month: "8월",
+    price: 80000,
+    ma20: 74000,
+    ma60: 71000,
+    RSI: 76,
+    volume: 1800000,
+  },
+  {
+    month: "9월",
+    price: 82000,
+    ma20: 75000,
+    ma60: 72000,
+    RSI: 78,
+    volume: 2000000,
+  },
+  {
+    month: "10월",
+    price: 81000,
+    ma20: 76000,
+    ma60: 73000,
+    RSI: 80,
+    volume: 1700000,
+  },
+  {
+    month: "11월",
+    price: 83000,
+    ma20: 77000,
+    ma60: 74000,
+    RSI: 82,
+    volume: 2100000,
+  },
+  {
+    month: "12월",
+    price: 85400,
+    ma20: 84800,
+    ma60: 82000,
+    RSI: 73.2,
+    volume: 2200000,
   },
 ];
+
 const financialSummary = {
-  profitability: "8.2%",
-  growth: "5.1%",
-  stability: "양호",
-  activity: "보통",
+  roe: "12.4%",
+  opm: "18.7%",
+  salesGrowth: "24.3%",
+  netIncomeGrowth: "31.8%",
+  debtRatio: "32.1%",
+  currentRatio: "245%",
+  assetTurnover: "0.67",
+  inventoryTurnover: "4.2",
 };
-const ESG = { score: 78, grade: "A" };
-// 골든크로스 구간 예시(인덱스 기준)
-const goldenCrossRanges = [{ start: 4, end: 6 }];
+
+const esgSummary = {
+  env: { grade: "B+", desc: "친환경 기술 개발 및 탄소 저감 노력 인정" },
+  soc: { grade: "A-", desc: "임직원 복지와 지역사회 기여도 높음" },
+  gov: { grade: "B+", desc: "투명한 경영과 이사회 독립성 양호" },
+};
 
 export default function InfoMain() {
-  // 과매수/과매도 상태 계산
-  const latestRSI = priceData[priceData.length - 1]?.RSI ?? 50;
-  let rsiText = "중립";
-  if (latestRSI >= 70) rsiText = "지금은 과매수 상태입니다";
-  else if (latestRSI <= 30) rsiText = "지금은 과매도 상태입니다";
+  const navigate = useNavigate();
+  const [showModal, setShowModal] = useState(false);
+  const handleLetsGo = () => setShowModal(true);
+  const handleSelect = (type: string) => {
+    if (type === "opinion") window.location.href = "/opinion";
+    else if (type === "info") window.location.href = "/info";
+  };
+  // 과매수/골든크로스 구간 예시
+  const overbought = true;
+  const goldenCross = true;
 
   return (
-    <div className="info-main-wrap">
-      {/* 상단 고정 */}
-      <header className="info-header">
-        <div className="company-info">삼성전자 (005930)</div>
-        <div className="search-bar-fixed">
-          <input type="text" placeholder="종목/키워드 검색" />
+    <div className="info-main-redesign">
+      {/* 모달 오버레이 */}
+      {showModal && (
+        <div
+          style={{
+            position: "fixed",
+            left: 0,
+            top: 0,
+            width: "100vw",
+            height: "100vh",
+            background: "rgba(0,0,0,0.18)",
+            zIndex: 1000,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <div
+            style={{
+              background: "#fff",
+              borderRadius: 16,
+              boxShadow: "0 4px 24px rgba(0,0,0,0.13)",
+              padding: "38px 36px 32px 36px",
+              minWidth: 340,
+              textAlign: "center",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
+          >
+            <div
+              style={{
+                fontWeight: 800,
+                fontSize: "1.22rem",
+                marginBottom: 6,
+                color: "#222",
+                letterSpacing: "-1px",
+              }}
+            >
+              어떤 정보를 보시겠어요?
+            </div>
+            <div
+              style={{
+                color: "#888",
+                fontSize: "0.97rem",
+                marginBottom: 24,
+                fontWeight: 500,
+              }}
+            >
+              원하는 정보를 선택해주세요
+            </div>
+            <button
+              style={{
+                width: 260,
+                background: "#2563eb",
+                color: "#fff",
+                border: "none",
+                borderRadius: 8,
+                padding: "13px 0",
+                fontWeight: 700,
+                fontSize: "1.08rem",
+                marginBottom: 14,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                gap: 8,
+                cursor: "pointer",
+                boxShadow: "0 2px 8px rgba(37,99,235,0.08)",
+              }}
+              onClick={() => handleSelect("opinion")}
+            >
+              {" "}
+              <FaComments style={{ fontSize: 18 }} /> 여론 보기
+            </button>
+            <button
+              style={{
+                width: 260,
+                background: "#444",
+                color: "#fff",
+                border: "none",
+                borderRadius: 8,
+                padding: "13px 0",
+                fontWeight: 700,
+                fontSize: "1.08rem",
+                marginBottom: 22,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                gap: 8,
+                cursor: "pointer",
+              }}
+              onClick={() => handleSelect("info")}
+            >
+              {" "}
+              <FaChartBar style={{ fontSize: 18 }} /> 정보 보기
+            </button>
+            <button
+              style={{
+                background: "none",
+                border: "none",
+                color: "#888",
+                fontSize: "0.98rem",
+                cursor: "pointer",
+                fontWeight: 500,
+                marginTop: 0,
+                padding: 0,
+              }}
+              onClick={() => setShowModal(false)}
+            >
+              닫기
+            </button>
+          </div>
         </div>
-      </header>
-      {/* 주가 차트 + RSI + 거래량 */}
-      <div className="price-chart-area">
-        <h3>주가 차트 (일봉)</h3>
+      )}
+      {/* 상단 요약 */}
+      <div
+        className="info-summary-bar"
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          marginBottom: 36,
+        }}
+      >
+        <div style={{ display: "flex", alignItems: "center", gap: 18 }}>
+          <div className="info-title">
+            <span className="company">하이닉스</span>
+            <span className="code">054930</span>
+          </div>
+          <span className="price">₩85,400</span>
+          <span className="price-up">+2,100 (+2.52%)</span>
+          <input className="search-bar" placeholder="다른 기업 검색하기" />
+        </div>
+        <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+          <button
+            style={{
+              background: "#2563eb",
+              color: "#fff",
+              border: "none",
+              borderRadius: 20,
+              padding: "0 18px",
+              height: 38,
+              fontWeight: 700,
+              fontSize: "1.01rem",
+              display: "flex",
+              alignItems: "center",
+              cursor: "pointer",
+            }}
+            onClick={handleLetsGo}
+          >
+            <FaHeart style={{ marginRight: 6 }} />
+            레쓰고
+          </button>
+          <button
+            className="btn-home"
+            onClick={() => navigate("/")}
+            style={{
+              background: "#2563eb",
+              color: "#fff",
+              border: "none",
+              borderRadius: 20,
+              padding: "0 18px",
+              height: 38,
+              fontWeight: 700,
+              fontSize: "1.01rem",
+              display: "flex",
+              alignItems: "center",
+              cursor: "pointer",
+            }}
+          >
+            <FaHome size={18} style={{ marginRight: 6 }} />홈
+          </button>
+        </div>
+      </div>
+
+      {/* 주가 차트 */}
+      <div className="chart-section">
+        <div className="chart-header">
+          <span className="chart-title">주가 차트</span>
+          {overbought && (
+            <span className="warn-chip">현재 과매수 구간입니다</span>
+          )}
+          {goldenCross && (
+            <span className="golden-chip">골든크로스 발생 중</span>
+          )}
+        </div>
         <ResponsiveContainer width="100%" height={320}>
           <LineChart
             data={priceData}
             margin={{ top: 20, right: 40, left: 0, bottom: 0 }}
           >
-            <XAxis dataKey="date" tick={{ fontSize: 12 }} />
-            <YAxis
-              yAxisId="left"
-              domain={[70000, 80000]}
-              tick={{ fontSize: 12 }}
+            <XAxis dataKey="month" />
+            <YAxis yAxisId="left" domain={[60000, 90000]} />
+            <YAxis yAxisId="right" orientation="right" domain={[0, 100]} hide />
+            <Tooltip
+              formatter={(value: any, name: any) => [
+                value,
+                name === "price"
+                  ? "주가"
+                  : name === "ma20"
+                  ? "20일 이동평균"
+                  : name === "ma60"
+                  ? "60일 이동평균"
+                  : name === "RSI"
+                  ? "RSI"
+                  : name,
+              ]}
             />
-            <YAxis
+            <Line
+              yAxisId="left"
+              type="monotone"
+              dataKey="price"
+              stroke="#1976d2"
+              name="주가"
+              strokeWidth={3}
+              dot
+            />
+            <Line
+              yAxisId="left"
+              type="monotone"
+              dataKey="ma20"
+              stroke="#43a047"
+              name="20일 이동평균"
+              strokeDasharray="5 2"
+              strokeWidth={2}
+              dot={false}
+            />
+            <Line
+              yAxisId="left"
+              type="monotone"
+              dataKey="ma60"
+              stroke="#ff9800"
+              name="60일 이동평균"
+              strokeDasharray="3 3"
+              strokeWidth={2}
+              dot={false}
+            />
+            <Line
               yAxisId="right"
-              orientation="right"
-              tick={{ fontSize: 12 }}
-            />
-            <Tooltip />
-            <Line
-              yAxisId="left"
               type="monotone"
-              dataKey="close"
-              stroke="#222"
-              dot={false}
-              name="종가"
+              dataKey="RSI"
+              stroke="#e53935"
+              name="RSI"
               strokeWidth={2}
-            />
-            <Line
-              yAxisId="left"
-              type="monotone"
-              dataKey="movingAvg5"
-              stroke="#8884d8"
               dot={false}
-              name="5일선"
-              strokeWidth={2}
             />
-            <Line
-              yAxisId="left"
-              type="monotone"
-              dataKey="movingAvg20"
-              stroke="#82ca9d"
-              dot={false}
-              name="20일선"
-              strokeWidth={2}
-            />
-            {goldenCrossRanges.map((r, i) => (
-              <ReferenceArea
-                key={i}
-                x1={priceData[r.start].date}
-                x2={priceData[r.end].date}
-                yAxisId="left"
-                fill="#ffe082"
-                fillOpacity={0.3}
-              />
-            ))}
             <Bar
-              yAxisId="right"
+              yAxisId="left"
               dataKey="volume"
               barSize={10}
               fill="#b0b0b0"
               name="거래량"
             />
+            {/* 골든크로스/과매수 ReferenceArea 등 추가 가능 */}
           </LineChart>
         </ResponsiveContainer>
-        <div className="rsi-area">
-          <h4>RSI</h4>
-          <ResponsiveContainer width="100%" height={80}>
-            <AreaChart
-              data={priceData}
-              margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
-            >
-              <XAxis dataKey="date" hide />
-              <YAxis domain={[0, 100]} />
-              <Tooltip />
-              <Area
-                type="monotone"
-                dataKey="RSI"
-                stroke="#ff8042"
-                fill="#ffe0b2"
-              />
-            </AreaChart>
-          </ResponsiveContainer>
-          <div className="rsi-text">{rsiText}</div>
+      </div>
+
+      {/* 보조지표 해석 */}
+      <div className="indicator-section">
+        <div className="indicator-card">
+          <span className="indicator-title">이동평균선</span>
+          <span className="indicator-desc">
+            20일선이 60일선을 상향 돌파하여 단기 상승 신호가 나타났습니다.
+          </span>
+        </div>
+        <div className="indicator-card warn">
+          <span className="indicator-title">RSI (73.2)</span>
+          <span className="indicator-desc">
+            과매수 구간에 진입했으나, 강한 상승 모멘텀이 지속되고 있습니다.
+          </span>
+        </div>
+        <div className="indicator-card good">
+          <span className="indicator-title">거래량</span>
+          <span className="indicator-desc">
+            평균 거래량 대비 142% 증가로 매수세가 강화되고 있습니다.
+          </span>
         </div>
       </div>
-      {/* 하단: 재무제표/ESG */}
-      <div className="summary-area">
-        <div className="financial-summary">
-          <h4>재무제표 요약</h4>
-          <table>
-            <tbody>
-              <tr>
-                <th>수익성</th>
-                <td>{financialSummary.profitability}</td>
-              </tr>
-              <tr>
-                <th>성장성</th>
-                <td>{financialSummary.growth}</td>
-              </tr>
-              <tr>
-                <th>안정성</th>
-                <td>{financialSummary.stability}</td>
-              </tr>
-              <tr>
-                <th>활동성</th>
-                <td>{financialSummary.activity}</td>
-              </tr>
-            </tbody>
-          </table>
+
+      {/* 요약 재무제표 + ESG 평가 */}
+      <div
+        className="finance-esg-section"
+        style={{ flexDirection: "column", gap: "18px" }}
+      >
+        <div className="finance-summary">
+          <div className="finance-title">요약 재무제표</div>
+          <div className="finance-row">
+            <div className="finance-col">
+              <div className="finance-label">수익성</div>
+              <div className="finance-value">ROE {financialSummary.roe}</div>
+              <div className="finance-value">
+                영업이익률 {financialSummary.opm}
+              </div>
+            </div>
+            <div className="finance-col">
+              <div className="finance-label">성장성</div>
+              <div className="finance-value">
+                매출증가율 {financialSummary.salesGrowth}
+              </div>
+              <div className="finance-value">
+                순이익증가율 {financialSummary.netIncomeGrowth}
+              </div>
+            </div>
+            <div className="finance-col">
+              <div className="finance-label">안정성</div>
+              <div className="finance-value">
+                부채비율 {financialSummary.debtRatio}
+              </div>
+              <div className="finance-value">
+                유동비율 {financialSummary.currentRatio}
+              </div>
+            </div>
+            <div className="finance-col">
+              <div className="finance-label">활동성</div>
+              <div className="finance-value">
+                자산회전율 {financialSummary.assetTurnover}
+              </div>
+              <div className="finance-value">
+                재고회전율 {financialSummary.inventoryTurnover}
+              </div>
+            </div>
+          </div>
         </div>
         <div className="esg-summary">
-          <h4>ESG 등급</h4>
-          <div className="esg-card">
-            <div className="esg-score">{ESG.score}</div>
-            <div className="esg-grade">{ESG.grade}</div>
+          <div className="esg-title">ESG 평가</div>
+          <div className="esg-row">
+            <div className="esg-col">
+              <div className="esg-grade">{esgSummary.env.grade}</div>
+              <div className="esg-label">환경 (E)</div>
+              <div className="esg-desc">{esgSummary.env.desc}</div>
+            </div>
+            <div className="esg-col">
+              <div className="esg-grade">{esgSummary.soc.grade}</div>
+              <div className="esg-label">사회 (S)</div>
+              <div className="esg-desc">{esgSummary.soc.desc}</div>
+            </div>
+            <div className="esg-col">
+              <div className="esg-grade">{esgSummary.gov.grade}</div>
+              <div className="esg-label">지배구조 (G)</div>
+              <div className="esg-desc">{esgSummary.gov.desc}</div>
+            </div>
           </div>
         </div>
       </div>
