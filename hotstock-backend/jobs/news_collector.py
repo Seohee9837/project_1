@@ -153,8 +153,8 @@ def process_ticker(ticker, corp_name):
     return row
 
 # ✅ 전체 실행 함수
-def collect_news_keywords(limit=10):  # limit=5로 테스트 가능  ------------------> 여기 limit=5
-    tickers = load_all_tickers()[:limit]  # 상위 N개 티커만  ------------------> 여기 [:limit]
+def collect_news_keywords():
+    tickers = load_all_tickers()
     results = []
 
     for ticker, corp_name in tickers:
