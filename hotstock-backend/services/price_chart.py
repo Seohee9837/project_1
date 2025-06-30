@@ -24,4 +24,4 @@ def get_price_chart(ticker, json_filename='chart_data.json'):
         })
 
     # JSON 파일로 저장
-    return json.dumps(data_to_save, ensure_ascii=False, indent=4)
+    return data_to_save

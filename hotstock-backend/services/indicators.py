@@ -112,4 +112,4 @@ def get_indicator_summary(ticker: str):
     }
     
     # JSON으로 반환
-    return json.dumps(indicator_summary, ensure_ascii=False, indent=4)
+    return indicator_summary
