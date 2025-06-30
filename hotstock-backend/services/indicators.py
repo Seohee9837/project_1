@@ -35,19 +35,8 @@ def get_indicator_chart(ticker: str):
         }
         price_chart_data.append(data_point)
 
-    # 저장할 디렉토리 경로 설정
-    output_dir = "data/indicator"
-    if not os.path.exists(output_dir):
-        os.makedirs(output_dir)  # 디렉토리가 없으면 생성
-
-    # 파일명 설정 (예: 티커 이름으로 파일을 저장)
-    output_file = os.path.join(output_dir, f"{ticker}_indicator.json")
-
-    # JSON 데이터를 파일로 저장
-    with open(output_file, 'w', encoding='utf-8') as f:
-        json.dump(price_chart_data, f, ensure_ascii=False, indent=4)
-
-    print(f"Indicator chart data saved to {output_file}")
+    # JSON으로 변환하여 반환
+    return json.dumps(price_chart_data, ensure_ascii=False, indent=4)
 
 def get_indicator_summary(ticker: str):
     # 날짜 범위 설정
@@ -121,24 +110,6 @@ def get_indicator_summary(ticker: str):
         "rsi": rsi_summary + ", " + annotations[2] + ", " + annotations[3],
         "moving_avg": moving_avg_summary + ", " + annotations[4] + ", " + annotations[5]
     }
-
-    # 저장할 디렉토리 경로 설정
-    output_dir = "data/indicator"
-    if not os.path.exists(output_dir):
-        os.makedirs(output_dir)  # 디렉토리가 없으면 생성
-
-    # 파일명 설정 (예: 티커 이름으로 파일을 저장)
-    output_file = os.path.join(output_dir, f"{ticker}_indicator_summary.json")
-
-    # JSON 데이터를 파일로 저장
-    with open(output_file, 'w', encoding='utf-8') as f:
-        json.dump(indicator_summary, f, ensure_ascii=False, indent=4)
-
-    print(f"Indicator summary saved to {output_file}")
-
-# 예시 실행
-ticker = "005930"  # 삼성전자
-
-# 데이터 저장
-get_indicator_summary(ticker)
-get_indicator_chart(ticker)
+    
+    # JSON으로 반환
+    return json.dumps(indicator_summary, ensure_ascii=False, indent=4)
