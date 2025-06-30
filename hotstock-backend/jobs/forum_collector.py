@@ -189,45 +189,38 @@ def run_analysis(stock_code):
     result_df = pd.DataFrame([[stock_code] + keywords], columns=['ticker'] + [f"keyword{i+1}" for i in range(len(keywords))])
     return result_df
 
-# 예시 CSV 파일 경로 (수정 가능)
-source_csv_path = "../../2024_final_ticker_list.csv"
-
-# CSV에서 ticker 열만 가져와서 리스트로 추출
-try:
-    ticker_df = pd.read_csv(source_csv_path, dtype={"ticker": str})
-    if 'ticker' not in ticker_df.columns:
-        raise ValueError("❌ 'ticker' 컬럼이 CSV에 없습니다.")
-
-    # 중복 제거하고 리스트로 변환
-    test_tickers = ticker_df['ticker'].dropna().unique().tolist()
-
-    # 상위 3개만 확인 (리밋 테스트용)
-    print("📄 추출된 티커 목록 (일부):", test_tickers[:3])
-except Exception as e:
-    print(f"❌ CSV 로드 오류: {e}")
-# 저장할 DataFrame 초기화
-final_df = pd.DataFrame()
-
-# 최대 처리 수 제한 (예: 2개 티커만 실행)
-limit = 3  # ✅ 필요시 None으로 설정하면 전부 처리
-tried = 0
-
-for ticker in test_tickers:
-    if limit is not None and tried >= limit:
-        break
-    tried += 1
+def collect_forum_keywords(source_csv_path="../../2024_final_ticker_list.csv", limit=3):
     try:
-        print(f"\n🚀 {ticker} 처리 시작")
-        result_df = run_analysis(ticker)
-        if result_df is not None:
-            final_df = pd.concat([final_df, result_df], ignore_index=True)
+        ticker_df = pd.read_csv(source_csv_path, dtype={"ticker": str})
+        if 'ticker' not in ticker_df.columns:
+            raise ValueError("❌ 'ticker' 컬럼이 CSV에 없습니다.")
+        test_tickers = ticker_df['ticker'].dropna().unique().tolist()
+        print("📄 추출된 티커 목록 (일부):", test_tickers[:3])
     except Exception as e:
-        print(f"❌ {ticker} 처리 중 오류: {e}")
+        print(f"❌ CSV 로드 오류: {e}")
+        return None
 
-# 저장
-if not final_df.empty:
-    os.makedirs("data", exist_ok=True)
-    final_df.to_csv("../data/forums.csv", index=False, encoding="utf-8-sig")
-    print("\n✅ 누적 결과 저장 완료: data/forums.csv")
-else:
-    print("⚠️ 결과가 없어 저장하지 않았습니다.")
+    final_df = pd.DataFrame()
+    tried = 0
+
+    for ticker in test_tickers:
+        if limit is not None and tried >= limit:
+            break
+        tried += 1
+        try:
+            print(f"\n🚀 {ticker} 처리 시작")
+            result_df = run_analysis(ticker)
+            if result_df is not None:
+                final_df = pd.concat([final_df, result_df], ignore_index=True)
+        except Exception as e:
+            print(f"❌ {ticker} 처리 중 오류: {e}")
+
+    if not final_df.empty:
+        os.makedirs("data", exist_ok=True)
+        final_df.to_csv("../data/forums.csv", index=False, encoding="utf-8-sig")
+        print("\n✅ 누적 결과 저장 완료: data/forums.csv")
+        return final_df
+    else:
+        print("⚠️ 결과가 없어 저장하지 않았습니다.")
+        return None
+
