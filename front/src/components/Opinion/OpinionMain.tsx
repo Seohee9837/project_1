@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   BarChart,
   Bar,
@@ -12,7 +13,13 @@ import {
   Pie,
   Cell,
 } from "recharts";
-import { FaHome, FaExternalLinkAlt } from "react-icons/fa";
+import {
+  FaHome,
+  FaExternalLinkAlt,
+  FaHeart,
+  FaComments,
+  FaChartBar,
+} from "react-icons/fa";
 import "../../styles/opinion.css";
 
 // 예시 데이터
@@ -92,7 +99,9 @@ const COLORS = [
 export default function OpinionMain() {
   const [showForumAll, setShowForumAll] = useState(false);
   const [showNewsAll, setShowNewsAll] = useState(false);
+  const [showModal, setShowModal] = useState(false);
   const company = { name: "하이닉스", ticker: "054930" };
+  const navigate = useNavigate();
 
   // 종목토론실 키워드 클릭 시 네이버 종토방 새 창
   const handleForumKeywordClick = (keyword: string) => {
@@ -113,24 +122,204 @@ export default function OpinionMain() {
     );
   };
 
+  const handleLetsGo = () => setShowModal(true);
+  const handleSelect = (type: string) => {
+    if (type === "opinion") window.location.href = "/opinion";
+    else if (type === "info") window.location.href = "/info";
+  };
+
   return (
-    <div className="opinion-main-wrap">
-      {/* 상단 바 */}
-      <header className="opinion-header">
-        <div className="company-info">
-          {company.name} <span className="ticker">{company.ticker}</span>
+    <div className="info-main-redesign">
+      {/* 모달 오버레이 */}
+      {showModal && (
+        <div
+          style={{
+            position: "fixed",
+            left: 0,
+            top: 0,
+            width: "100vw",
+            height: "100vh",
+            background: "rgba(0,0,0,0.18)",
+            zIndex: 1000,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <div
+            style={{
+              background: "#fff",
+              borderRadius: 16,
+              boxShadow: "0 4px 24px rgba(0,0,0,0.13)",
+              padding: "38px 36px 32px 36px",
+              minWidth: 340,
+              textAlign: "center",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
+          >
+            <div
+              style={{
+                fontWeight: 800,
+                fontSize: "1.22rem",
+                marginBottom: 6,
+                color: "#222",
+                letterSpacing: "-1px",
+              }}
+            >
+              어떤 정보를 보시겠어요?
+            </div>
+            <div
+              style={{
+                color: "#888",
+                fontSize: "0.97rem",
+                marginBottom: 24,
+                fontWeight: 500,
+              }}
+            >
+              원하는 정보를 선택해주세요
+            </div>
+            <button
+              style={{
+                width: 260,
+                background: "#2563eb",
+                color: "#fff",
+                border: "none",
+                borderRadius: 8,
+                padding: "13px 0",
+                fontWeight: 700,
+                fontSize: "1.08rem",
+                marginBottom: 14,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                gap: 8,
+                cursor: "pointer",
+                boxShadow: "0 2px 8px rgba(37,99,235,0.08)",
+              }}
+              onClick={() => handleSelect("opinion")}
+            >
+              {" "}
+              <FaComments style={{ fontSize: 18 }} /> 여론 보기
+            </button>
+            <button
+              style={{
+                width: 260,
+                background: "#444",
+                color: "#fff",
+                border: "none",
+                borderRadius: 8,
+                padding: "13px 0",
+                fontWeight: 700,
+                fontSize: "1.08rem",
+                marginBottom: 22,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                gap: 8,
+                cursor: "pointer",
+              }}
+              onClick={() => handleSelect("info")}
+            >
+              {" "}
+              <FaChartBar style={{ fontSize: 18 }} /> 정보 보기
+            </button>
+            <button
+              style={{
+                background: "none",
+                border: "none",
+                color: "#888",
+                fontSize: "0.98rem",
+                cursor: "pointer",
+                fontWeight: 500,
+                marginTop: 0,
+                padding: 0,
+              }}
+              onClick={() => setShowModal(false)}
+            >
+              닫기
+            </button>
+          </div>
         </div>
-        <div className="search-bar-fixed">
-          <input type="text" placeholder="다른 기업 검색하기" />
+      )}
+      {/* info-summary-bar 구조로 상단 박스 통일 */}
+      <div
+        className="info-summary-bar"
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          marginBottom: 36,
+        }}
+      >
+        <div style={{ display: "flex", alignItems: "center", gap: 18 }}>
+          <div className="info-title">
+            <span className="company">{company.name}</span>
+            <span className="code">{company.ticker}</span>
+          </div>
+          <input className="search-bar" placeholder="다른 기업 검색하기" />
         </div>
-        <button className="home-btn">
-          <FaHome size={18} style={{ marginRight: 6 }} />홈
-        </button>
-      </header>
+        <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+          <button
+            style={{
+              background: "#2563eb",
+              color: "#fff",
+              border: "none",
+              borderRadius: 20,
+              padding: "0 18px",
+              height: 38,
+              fontWeight: 700,
+              fontSize: "1.01rem",
+              display: "flex",
+              alignItems: "center",
+              cursor: "pointer",
+            }}
+            onClick={handleLetsGo}
+          >
+            <FaHeart style={{ marginRight: 6 }} />
+            레쓰고
+          </button>
+          <button
+            className="btn-home"
+            onClick={() => navigate("/")}
+            style={{
+              background: "#2563eb",
+              color: "#fff",
+              border: "none",
+              borderRadius: 20,
+              padding: "0 18px",
+              height: 38,
+              fontWeight: 700,
+              fontSize: "1.01rem",
+              display: "flex",
+              alignItems: "center",
+              cursor: "pointer",
+            }}
+          >
+            <FaHome size={18} style={{ marginRight: 6 }} />홈
+          </button>
+        </div>
+      </div>
       {/* 본문 2단 */}
-      <div className="opinion-main-cards">
+      <div
+        className="opinion-main-cards"
+        style={{ display: "flex", gap: 24, marginBottom: 36 }}
+      >
         {/* 종목토론실 */}
-        <section className="opinion-card">
+        <section
+          className="opinion-card"
+          style={{
+            flex: "1 1 0",
+            background: "#fff",
+            borderRadius: 18,
+            boxShadow: "0 4px 16px rgba(0,0,0,0.06)",
+            padding: "32px 24px 18px 24px",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "stretch",
+          }}
+        >
           <div className="card-title-row">
             <h3>찐으로 많이 나온 단어들</h3>
             <span className="card-icon">💬 종목토론실</span>
@@ -181,7 +370,19 @@ export default function OpinionMain() {
           </div>
         </section>
         {/* 뉴스 */}
-        <section className="opinion-card">
+        <section
+          className="opinion-card"
+          style={{
+            flex: "1 1 0",
+            background: "#fff",
+            borderRadius: 18,
+            boxShadow: "0 4px 16px rgba(0,0,0,0.06)",
+            padding: "32px 24px 18px 24px",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "stretch",
+          }}
+        >
           <div className="card-title-row">
             <h3>기자들이 자꾸 쓰는 단어들</h3>
             <span className="card-icon">📰 뉴스</span>
