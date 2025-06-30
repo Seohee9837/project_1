@@ -1,6 +1,7 @@
 import FinanceDataReader as fdr
 import pandas as pd
 import json
+import os
 from datetime import datetime, timedelta
 
 def get_indicator_chart(ticker: str):
