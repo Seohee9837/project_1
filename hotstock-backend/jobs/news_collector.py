@@ -153,7 +153,7 @@ def process_ticker(ticker, corp_name):
     return row
 
 # ✅ 전체 실행 함수
-def collect_all_keywords(limit=10):  # limit=5로 테스트 가능  ------------------> 여기 limit=5
+def collect_news_keywords(limit=10):  # limit=5로 테스트 가능  ------------------> 여기 limit=5
     tickers = load_all_tickers()[:limit]  # 상위 N개 티커만  ------------------> 여기 [:limit]
     results = []
 
@@ -171,6 +171,3 @@ def collect_all_keywords(limit=10):  # limit=5로 테스트 가능  ------------
     else:
         print("[알림] 저장할 데이터 없음")
 
-# 🚀 실행
-if __name__ == "__main__":
-    collect_all_keywords(limit=10)  # ------> 지금은 되나 확인용 나중에 limit=5 까지 3개개지우면 됨 ~ㅅ~
