@@ -1,0 +1,232 @@
+.opinion-main-wrap {
+  max-width: 1100px;
+  margin: 32px auto 0 auto;
+  padding: 0 16px 60px 16px;
+  background: #f5f7fa;
+  min-height: 100vh;
+}
+.opinion-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1100px;
+  margin: 0 auto 36px auto;
+  border-radius: 16px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+  background: #fff;
+  padding: 22px 32px 22px 32px;
+}
+.company-info {
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+.ticker {
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: #888;
+  margin-left: 8px;
+}
+.search-bar-fixed input {
+  width: 260px;
+  padding: 10px 24px;
+  border-radius: 24px;
+  border: 1.5px solid #b0b0b0;
+  font-size: 1.1rem;
+}
+.home-btn {
+  background: #1976d2;
+  color: #fff;
+  border: none;
+  border-radius: 20px;
+  padding: 8px 24px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  margin-left: 18px;
+  transition: background 0.15s;
+  display: flex;
+  align-items: center;
+}
+.home-btn:hover {
+  background: #1251a3;
+}
+.opinion-main-cards {
+  display: flex;
+  gap: 24px !important;
+  margin: 0 auto 36px auto;
+  max-width: 1100px;
+}
+.opinion-card {
+  flex: 1 1 0;
+  min-width: 0;
+  flex-basis: 0;
+  width: 100%;
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+  padding: 32px 24px 18px 24px !important;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+.card-title-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 18px;
+}
+.card-title-row h3 {
+  font-size: 1.18rem;
+  font-weight: 700;
+  color: #222;
+  margin: 0;
+}
+.card-icon {
+  font-size: 1rem;
+  color: #888;
+  font-weight: 500;
+  margin-left: 12px;
+}
+.keyword-top-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 12px 0;
+}
+.keyword-top-item {
+  display: flex;
+  align-items: center;
+  font-size: 1.13rem;
+  margin-bottom: 7px;
+  cursor: pointer;
+  border-radius: 8px;
+  padding: 3px 8px;
+  transition: background 0.12s;
+}
+.keyword-top-item:hover {
+  background: #f0f4ff;
+}
+.rank-badge {
+  display: inline-block;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: #1976d2;
+  color: #fff;
+  font-weight: 700;
+  font-size: 1.05em;
+  text-align: center;
+  line-height: 28px;
+  margin-right: 10px;
+}
+.rank-badge.news {
+  background: #43a047;
+}
+.keyword-link {
+  color: #1976d2;
+  font-weight: 500;
+  margin-right: 8px;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+.keyword-link.news-link {
+  color: #43a047;
+}
+.keyword-count {
+  margin-left: auto;
+  font-weight: 600;
+  color: #888;
+  font-size: 1em;
+}
+.more-btn {
+  margin: 0 auto 18px auto;
+  padding: 7px 22px;
+  background: #fff;
+  border: 1.5px solid #8884d8;
+  color: #8884d8;
+  border-radius: 20px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+.more-btn:hover {
+  background: #8884d8;
+  color: #fff;
+}
+.bar-chart-area {
+  margin-bottom: 18px;
+}
+.bar-chart-label {
+  text-align: right;
+  font-size: 0.98rem;
+  color: #888;
+  margin-top: 2px;
+}
+.trend-bottom-row {
+  display: flex;
+  gap: 36px;
+  margin-top: 24px;
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+  padding: 36px 32px 28px 32px;
+  align-items: flex-start;
+}
+.trend-bottom-left {
+  flex: 2;
+}
+.trend-bottom-left h3 {
+  font-size: 1.18rem;
+  font-weight: 700;
+  color: #222;
+  margin-bottom: 18px;
+}
+.trend-bottom-right {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-width: 160px;
+}
+.trend-pie-title {
+  font-size: 1.05rem;
+  color: #888;
+  font-weight: 500;
+  margin-bottom: 10px;
+}
+.trend-score {
+  font-size: 2.2rem;
+  font-weight: 700;
+  margin-top: 18px;
+}
+@media (max-width: 1100px) {
+  .opinion-main-cards,
+  .trend-bottom-row {
+    flex-direction: column;
+    gap: 18px;
+  }
+}
+@media (max-width: 700px) {
+  .opinion-main-wrap {
+    padding: 8px 2px 24px 2px;
+  }
+  .opinion-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    padding-bottom: 8px;
+  }
+  .company-info {
+    margin-bottom: 8px;
+  }
+  .search-bar-fixed input {
+    width: 100%;
+    min-width: 0;
+  }
+  .opinion-card,
+  .trend-bottom-row {
+    padding: 12px 6px 10px 6px;
+  }
+}
