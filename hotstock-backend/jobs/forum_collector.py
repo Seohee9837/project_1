@@ -189,13 +189,13 @@ def run_analysis(stock_code):
     result_df = pd.DataFrame([[stock_code] + keywords], columns=['ticker'] + [f"keyword{i+1}" for i in range(len(keywords))])
     return result_df
 
-def collect_forum_keywords(source_csv_path="../data/2024_final_ticker_list.csv", limit=3):
+def collect_forum_keywords(limit=3):
     try:
-        ticker_df = pd.read_csv(source_csv_path, dtype={"ticker": str})
+        ticker_df = pd.read_csv("../data/2024_final_ticker_list.csv", dtype={"ticker": str})
         if 'ticker' not in ticker_df.columns:
             raise ValueError("❌ 'ticker' 컬럼이 CSV에 없습니다.")
         test_tickers = ticker_df['ticker'].dropna().unique().tolist()
-        print("📄 추출된 티커 목록 (일부):", test_tickers[:3])
+        print("📄 추출된 티커 목록 (일부):", test_tickers[:limit])
     except Exception as e:
         print(f"❌ CSV 로드 오류: {e}")
         return None

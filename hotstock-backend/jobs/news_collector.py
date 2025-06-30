@@ -153,8 +153,12 @@ def process_ticker(ticker, corp_name):
     return row
 
 # ✅ 전체 실행 함수
-def collect_news_keywords():
+def collect_news_keywords(limit: int = None):
     tickers = load_all_tickers()
+
+    if limit is not None:
+        tickers = tickers[:limit]  # 앞에서부터 limit 개만 선택
+
     results = []
 
     for ticker, corp_name in tickers:
@@ -170,4 +174,5 @@ def collect_news_keywords():
         print(f"[완료] {len(results)}개 기업 저장 → {OUTPUT_PATH}")
     else:
         print("[알림] 저장할 데이터 없음")
+
 

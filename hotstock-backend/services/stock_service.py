@@ -1,7 +1,6 @@
 import pandas as pd
 from pathlib import Path
-from gg_trend.company_utils import get_cp_name_from_csv
-from gg_trend.trend_api import get_trend_df
+from services.gg_trend import get_trend_data
 from datetime import datetime, timedelta
 from typing import Dict, Any
 
@@ -18,19 +17,23 @@ def parse_keywords_row(row):
     keywords = []
     for i in range(1, 21):
         raw = row.get(f"keyword{i}")
-        if pd.isna(raw):
+
+        if pd.isna(raw) or not isinstance(raw, str) or raw.strip() == "":
             continue
-        try:
-            word, count = raw.rstrip(")").split("(")
-            keywords.append({"word": word.strip(), "count": int(count)})
-        except:
-            continue
+
+        # 형식이 "단어(숫자회)"일 때만 파싱
+        if "(" in raw and raw.endswith(")"):
+            try:
+                word, count = raw.rstrip(")").split("(")
+                keywords.append({"word": word.strip(), "count": int(count.replace("회", "").strip())})
+            except ValueError:
+                continue  # split 실패 시 무시
     return keywords
 
 # 포럼 페이지
 def get_forum_page_data(ticker: str):
-    forums = pd.read_csv("./data/forums.csv")
-    news = pd.read_csv("./data/news.csv")
+    forums = pd.read_csv("./data/forums.csv", dtype={'ticker':str})
+    news = pd.read_csv("./data/news.csv", dtype={'ticker':str})
 
     # 종토방 키워드
     forum_row = forums[forums["ticker"] == ticker]
@@ -40,26 +43,13 @@ def get_forum_page_data(ticker: str):
     news_row = news[news["ticker"] == ticker]
     news_keywords = parse_keywords_row(news_row.iloc[0]) if not news_row.empty else []
 
-    # ✅ 구글 트렌드 - 기업명 추출 후 get_trend_df 호출
-    try:
-        cp_name = get_cp_name_from_csv(ticker, "./data/2024_final_ticker_list.csv")
-        today = datetime.today()
-        start_date = today.strftime("%Y-%m-%d")
-        end_date = (today - timedelta(days=365)).strftime("%Y-%m-%d")
-        trend_df = get_trend_df(cp_name, end_date, start_date)
-
-        trend_data = [
-            {"date": date.strftime("%Y-%m-%d"), "score": int(score)}
-            for date, score in zip(trend_df.index, trend_df["ratio"])
-        ]
-    except Exception as e:
-        print(f"❌ Trend fetch failed for {ticker}: {e}")
-        trend_data = []
+    trend_df = get_trend_data(ticker)
+    
 
     return {
         "forums": forum_keywords,
         "news": news_keywords,
-        "trend": trend_data
+        "trend": trend_df
     }
 
 # 외부 함수 가정
@@ -71,9 +61,9 @@ from services.multiples import get_multiples
 # 상세 페이지 
 def get_detail_page_data(ticker: str) -> Dict[str, Any]:
     # CSV 데이터 불러오기
-    financial_indicators_df = pd.read_csv("./data/financial_indicators.csv")
+    financial_indicators_df = pd.read_csv("./data/financial_indicators.csv", dtype={"ticker":str})
     # financial_states_df = pd.read_csv("./data/financial_states.csv")
-    esg_df = pd.read_csv("./data/esg.csv")
+    esg_df = pd.read_csv("./data/esg.csv", dtype={"ticker":str})
 
     # ✅ CSV 기반
     fi_row = financial_indicators_df[financial_indicators_df["ticker"] == ticker]
