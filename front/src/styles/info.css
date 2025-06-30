@@ -1,0 +1,200 @@
+.info-main-wrap {
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: 48px 32px 60px 32px;
+  font-family: "Pretendard", "Noto Sans KR", Arial, sans-serif;
+  background: #fff;
+  min-height: 100vh;
+}
+
+.info-header {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  background: #fff;
+  z-index: 10;
+  padding-bottom: 24px;
+  border-bottom: 1px solid #e0e0e0;
+  margin-bottom: 36px;
+}
+.company-info {
+  font-weight: 700;
+  font-size: 1.3rem;
+  margin-right: 36px;
+  color: #222;
+}
+.search-bar-fixed input {
+  padding: 10px 24px;
+  border: 1.5px solid #b0b0b0;
+  border-radius: 24px;
+  font-size: 1.1rem;
+  outline: none;
+  width: 240px;
+}
+
+.price-chart-area {
+  background: #f8f9fa;
+  border-radius: 20px;
+  padding: 36px 32px 28px 32px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+  margin-bottom: 48px;
+}
+.price-chart-area h3 {
+  font-size: 1.35rem;
+  font-weight: 700;
+  margin-bottom: 28px;
+  color: #333;
+  text-align: left;
+}
+.rsi-area {
+  margin-top: 28px;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  padding: 18px 24px 16px 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+.rsi-area h4 {
+  font-size: 1.15rem;
+  font-weight: 600;
+  margin-bottom: 10px;
+  color: #444;
+}
+.rsi-text {
+  margin-top: 10px;
+  font-size: 1.15rem;
+  color: #ff8042;
+  font-weight: 700;
+}
+
+.summary-area {
+  display: flex;
+  gap: 48px;
+  margin-top: 48px;
+  flex-wrap: wrap;
+}
+.financial-summary,
+.esg-summary {
+  flex: 1 1 0;
+  background: #f8f9fa;
+  border-radius: 20px;
+  padding: 36px 32px 28px 32px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+.financial-summary h4,
+.esg-summary h4 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-bottom: 18px;
+  color: #333;
+  text-align: left;
+}
+.financial-summary table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+  border-radius: 10px;
+  overflow: hidden;
+}
+.financial-summary th,
+.financial-summary td {
+  padding: 12px 16px;
+  font-size: 1.1rem;
+  border-bottom: 1px solid #e0e0e0;
+  text-align: left;
+}
+.financial-summary th {
+  background: #f0f0f0;
+  font-weight: 600;
+  color: #555;
+  width: 110px;
+}
+.financial-summary tr:last-child td,
+.financial-summary tr:last-child th {
+  border-bottom: none;
+}
+.esg-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  padding: 28px 0 18px 0;
+  margin-top: 12px;
+}
+.esg-score {
+  font-size: 2.8rem;
+  font-weight: 700;
+  color: #8884d8;
+}
+.esg-grade {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #222;
+  margin-top: 8px;
+}
+
+/* 차트 높이 조정 */
+.price-chart-area .recharts-responsive-container {
+  height: 480px !important;
+  min-height: 320px;
+}
+.rsi-area .recharts-responsive-container {
+  height: 120px !important;
+  min-height: 80px;
+}
+
+/* 반응형 */
+@media (max-width: 1200px) {
+  .info-main-wrap {
+    max-width: 100%;
+    padding: 24px 8px 32px 8px;
+  }
+  .summary-area {
+    gap: 24px;
+  }
+}
+@media (max-width: 900px) {
+  .summary-area {
+    flex-direction: column;
+    gap: 18px;
+  }
+}
+@media (max-width: 600px) {
+  .info-main-wrap {
+    padding: 8px 2px 24px 2px;
+  }
+  .info-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    padding-bottom: 8px;
+  }
+  .company-info {
+    margin-right: 0;
+  }
+  .search-bar-fixed input {
+    width: 100%;
+    min-width: 0;
+  }
+  .price-chart-area,
+  .financial-summary,
+  .esg-summary {
+    padding: 12px 6px 10px 6px;
+  }
+  .price-chart-area .recharts-responsive-container {
+    height: 260px !important;
+  }
+  .rsi-area .recharts-responsive-container {
+    height: 80px !important;
+  }
+}
