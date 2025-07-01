@@ -48,11 +48,12 @@ def get_forum_page_data(ticker: str):
     # 뉴스 키워드
     news_row = news[news["ticker"] == ticker]
     news_keywords = parse_keywords_row(news_row.iloc[0]) if not news_row.empty else []
-
+    corp_name = news[news["ticker"] == ticker]["corp_name"].values[0] if not news_row.empty else ""
     trend_df = get_trend_data(ticker)
     
 
     return {
+        "corpName" : corp_name,
         "forums": forum_keywords,
         "news": news_keywords,
         "trend": trend_df
