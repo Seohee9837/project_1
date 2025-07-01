@@ -68,7 +68,7 @@ from services.multiples import get_multiples
 def get_detail_page_data(ticker: str) -> Dict[str, Any]:
     # CSV 데이터 불러오기
     financial_indicators_df = pd.read_csv("./data/financial_indicators.csv", dtype={"ticker":str})
-    financial_states_df = pd.read_csv("./data/financial_states.csv", dtype={"ticker":str})
+    financial_states_df = pd.read_csv("./data/collect_finance.csv", dtype={"ticker":str})
     esg_df = pd.read_csv("./data/esg.csv", dtype={"ticker":str})
 
     # ✅ CSV 기반
