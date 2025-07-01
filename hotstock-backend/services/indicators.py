@@ -36,7 +36,7 @@ def get_indicator_chart(ticker: str):
         price_chart_data.append(data_point)
 
     # JSON으로 변환하여 반환
-    return json.dumps(price_chart_data, ensure_ascii=False, indent=4)
+    return price_chart_data
 
 def get_indicator_summary(ticker: str):
     # 날짜 범위 설정

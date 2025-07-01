@@ -7,7 +7,7 @@ from services.stock_service import (
 
 router = APIRouter()
 
-@router.get("/company/search")
+@router.get("/search")
 def search_companies(query: str = Query(..., min_length=1)):
     return search_company(query)
 
