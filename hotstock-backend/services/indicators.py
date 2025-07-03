@@ -106,8 +106,21 @@ def get_indicator_summary(ticker: str):
         latest = dead_cross.index[-1]  # Use index for dates
         annotations.append(f"최근 MA 데드크로스: {latest.strftime('%Y-%m-%d')}")
     
-    indicator_summary ={"rsi": ", ".join(annotations[:4]) if len(annotations) >= 4 else ", ".join(annotations[:len(annotations)]),
-    "moving_avg": ", ".join(annotations[1:2] + annotations[4:6])  # 1번은 이동평균 summary
+    # RSI와 이동평균선 데이터를 올바르게 분리
+    rsi_annotations = [annotations[0]]  # 현재 RSI 상태
+    moving_avg_annotations = [annotations[1]]  # 현재 이동평균선 상태
+    
+    # RSI 관련 추가 정보 (과매수/과매도)
+    if len(annotations) > 2:
+        rsi_annotations.extend(annotations[2:4])  # RSI 과매수/과매도 정보
+    
+    # 이동평균선 관련 추가 정보 (골든/데드크로스)
+    if len(annotations) > 4:
+        moving_avg_annotations.extend(annotations[4:6])  # 골든/데드크로스 정보
+    
+    indicator_summary = {
+        "rsi": ", ".join(rsi_annotations),
+        "moving_avg": ", ".join(moving_avg_annotations)
     }
     
     # JSON으로 반환
