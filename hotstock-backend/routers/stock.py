@@ -2,7 +2,8 @@ from fastapi import APIRouter, Query
 from services.stock_service import (
     get_forum_page_data,
     get_detail_page_data,
-    search_company
+    search_company,
+    get_current_price_data
 )
 
 router = APIRouter()
@@ -10,6 +11,13 @@ router = APIRouter()
 @router.get("/search")
 def search_companies(query: str = Query(..., min_length=1)):
     return search_company(query)
+
+@router.get("/{ticker}/current-price")
+def current_price(ticker: str):
+    """
+    실시간 주가 정보 (현재가, 전일대비, 수익률)
+    """
+    return get_current_price_data(ticker)
 
 @router.get("/{ticker}/forum-data")
 def forum_data(ticker: str):

@@ -1,11 +1,50 @@
 import pandas as pd
 from pathlib import Path
 from services.gg_trend import get_trend_data
+from services.price_chart import get_price_chart
 from datetime import datetime, timedelta
 from typing import Dict, Any
 import numpy as np
 
 COMPANY_CSV = "./data/2024_final_ticker_list.csv"
+
+# 실시간 주가 정보
+def get_current_price_data(ticker: str):
+    try:
+        # 최근 주가 데이터 가져오기
+        price_data = get_price_chart(ticker)
+        if not price_data or len(price_data) < 2:
+            return {
+                "current_price": "N/A",
+                "change": "N/A", 
+                "change_rate": "N/A",
+                "prev_close": "N/A"
+            }
+        
+        # 최신 데이터
+        current = price_data[-1]
+        prev = price_data[-2]
+        
+        current_price = current["Close"]
+        prev_close = prev["Close"]
+        change = current_price - prev_close
+        change_rate = (change / prev_close) * 100
+        
+        return {
+            "current_price": f"₩{current_price:,.0f}",
+            "change": f"{change:+,.0f}",
+            "change_rate": f"{change_rate:+.2f}%",
+            "prev_close": f"₩{prev_close:,.0f}"
+        }
+    except Exception as e:
+        print(f"주가 데이터 가져오기 실패: {e}")
+        return {
+            "current_price": "N/A",
+            "change": "N/A",
+            "change_rate": "N/A", 
+            "prev_close": "N/A"
+        }
+
 # 검색어 자동 완성 기능
 def search_company(query: str, limit: int = 10):
     df = pd.read_csv(COMPANY_CSV, dtype={"ticker":str})
@@ -60,7 +99,6 @@ def get_forum_page_data(ticker: str):
     }
 
 # 외부 함수 가정
-from services.price_chart import get_price_chart
 from services.indicators import get_indicator_summary, get_indicator_chart
 from services.reports import get_latest_reports
 from services.multiples import get_multiples

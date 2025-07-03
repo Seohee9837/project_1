@@ -106,9 +106,8 @@ def get_indicator_summary(ticker: str):
         latest = dead_cross.index[-1]  # Use index for dates
         annotations.append(f"최근 MA 데드크로스: {latest.strftime('%Y-%m-%d')}")
     
-    indicator_summary = {
-        "rsi": rsi_summary + ", " + annotations[2] + ", " + annotations[3],
-        "moving_avg": moving_avg_summary + ", " + annotations[4] + ", " + annotations[5]
+    indicator_summary ={"rsi": ", ".join(annotations[:4]) if len(annotations) >= 4 else ", ".join(annotations[:len(annotations)]),
+    "moving_avg": ", ".join(annotations[1:2] + annotations[4:6])  # 1번은 이동평균 summary
     }
     
     # JSON으로 반환

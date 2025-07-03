@@ -12,14 +12,25 @@ def get_valid_date_and_data(ticker: str):
         except:
             pass
         today -= timedelta(days=1)
-    raise ValueError("최근 10일 간 유효한 데이터가 없습니다.")
+    return None, None  # 실패 시 None 반환
 
 def get_multiples(ticker: str) -> dict:
     date, df = get_valid_date_and_data(ticker)
-    data = df.iloc[0]  # 단일 행
+    if df is None:
+        return {
+            "date": None,
+            "per": None,
+            "eps": None,
+            "bps": None,
+            "pbr": None,
+            "dps": None,
+            "div": None
+        }
+
+    data = df.iloc[0]
 
     return {
-        "date": date,  # ✅ 조회 날짜 포함
+        "date": date,
         "per": round(data["PER"], 2),
         "eps": round(data["EPS"], 2),
         "bps": round(data["BPS"], 2),
