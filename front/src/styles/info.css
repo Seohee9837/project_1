@@ -1,0 +1,610 @@
+@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/variable/pretendardvariable.css');
+
+@font-face {
+    font-family: 'yg-jalnan';
+    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_four@1.2/JalnanOTF00.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'JalnanGothic';
+    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_231029@1.1/JalnanGothic.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* Placeholder 색깔 통일 */
+input::placeholder {
+  color: #999999 !important;
+  opacity: 1;
+}
+
+input::-webkit-input-placeholder {
+  color: #999999 !important;
+  opacity: 1;
+}
+
+input::-moz-placeholder {
+  color: #999999 !important;
+  opacity: 1;
+}
+
+input:-ms-input-placeholder {
+  color: #999999 !important;
+  opacity: 1;
+}
+
+.info-main-wrap,
+.info-main-redesign {
+  /* 배경 스타일 완전 삭제 */
+  width: 100%;
+  margin: 0 auto;
+  padding: 1rem 1rem;
+  font-family: "yg-jalnan", sans-serif;
+  min-height: 100vh;
+  font-size: 1.1rem;
+  box-sizing: border-box;
+}
+
+.info-container {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.info-card,
+.summary-card,
+.chart-card {
+  width: 100%;
+  margin: 1.5rem 0;
+  border-radius: 1.5rem;
+  box-shadow: 0 2px 12px #e9e9f3aa;
+  padding: 2rem 1.5rem;
+  font-size: 1rem;
+}
+
+.info-header {
+  width: 100%;
+  margin: 0 0 2rem 0;
+  padding: 1.5rem 1.5rem;
+  border-radius: 1.5rem;
+  background: #f7f7fb;
+  box-shadow: 0 2px 8px #f0f0f7;
+  font-size: 1.1rem;
+}
+
+.company-info {
+  font-weight: 700;
+  font-size: 1.3rem;
+  margin-right: 36px;
+  color: #222;
+}
+.search-bar {
+  border: 1.5px solid #b0b0b0;
+  border-radius: 24px;
+  font-size: 1.05rem;
+  padding: 8px 18px;
+  outline: none;
+  width: 220px;
+  margin-right: 10px;
+  text-align: center;
+}
+
+.price-chart-area {
+  background: #f8f9fa;
+  border-radius: 20px;
+  padding: 32px 24px 24px 24px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+  margin-bottom: 32px;
+  font-size: 1.1rem;
+}
+.price-chart-area h3 {
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin-bottom: 24px;
+  color: #333;
+  text-align: left;
+}
+.rsi-area {
+  margin-top: 28px;
+  border-radius: 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  padding: 18px 24px 16px 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+.rsi-area h4 {
+  font-size: 1.15rem;
+  font-weight: 600;
+  margin-bottom: 10px;
+  color: #444;
+}
+.rsi-text {
+  margin-top: 10px;
+  font-size: 1.15rem;
+  color: #ff8042;
+  font-weight: 700;
+}
+
+.summary-area {
+  display: flex;
+  gap: 24px;
+  margin-top: 32px;
+  flex-wrap: wrap;
+}
+.financial-summary,
+.esg-summary {
+  flex: 1 1 0;
+  background: #f8f9fa;
+  border-radius: 20px;
+  padding: 32px 24px 24px 24px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+  min-width: 320px;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  font-size: 1.1rem;
+}
+.financial-summary h4,
+.esg-summary h4 {
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin-bottom: 20px;
+  color: #333;
+  text-align: left;
+}
+.financial-summary table {
+  width: 100%;
+  border-collapse: collapse;
+  border-radius: 10px;
+  overflow: hidden;
+}
+.financial-summary th,
+.financial-summary td {
+  padding: 12px 16px;
+  font-size: 1.1rem;
+  border-bottom: 1px solid #e0e0e0;
+  text-align: left;
+}
+.financial-summary th {
+  background: #f0f0f0;
+  font-weight: 600;
+  color: #555;
+  width: 110px;
+}
+.financial-summary tr:last-child td,
+.financial-summary tr:last-child th {
+  border-bottom: none;
+}
+.esg-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  padding: 28px 0 18px 0;
+  margin-top: 12px;
+}
+.esg-score {
+  font-size: 2.8rem;
+  font-weight: 700;
+  color: #8884d8;
+}
+.esg-grade {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #222;
+  margin-top: 8px;
+}
+
+/* 차트 높이 조정 */
+.price-chart-area .recharts-responsive-container {
+  height: 600px !important;
+  min-height: 400px;
+}
+.rsi-area .recharts-responsive-container {
+  height: 150px !important;
+  min-height: 100px;
+}
+
+/* 반응형 */
+@media (max-width: 1200px) {
+  .info-main-wrap {
+    padding: 2rem 1.5rem;
+  }
+  .info-main-redesign {
+    padding: 0 1.5rem 60px 1.5rem;
+  }
+  .summary-area {
+    gap: 24px;
+  }
+}
+@media (max-width: 900px) {
+  .summary-area {
+    flex-direction: column;
+    gap: 18px;
+  }
+  .info-main-wrap,
+  .info-card,
+  .summary-card,
+  .chart-card,
+  .info-header {
+    padding: 1rem 0.5rem;
+  }
+}
+@media (max-width: 600px) {
+  .info-main-wrap {
+    padding: 8px 2px 24px 2px;
+  }
+  .info-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    padding-bottom: 8px;
+  }
+  .company-info {
+    margin-right: 0;
+  }
+  .search-bar {
+    width: 100%;
+    min-width: 0;
+  }
+  .price-chart-area,
+  .financial-summary,
+  .esg-summary {
+    padding: 12px 6px 10px 6px;
+  }
+  .price-chart-area .recharts-responsive-container {
+    height: 260px !important;
+  }
+  .rsi-area .recharts-responsive-container {
+    height: 80px !important;
+  }
+}
+
+/* 리디자인용 전체 래퍼 */
+.info-main-redesign {
+  margin: 56px auto 0 auto;
+  padding: 0 1rem 60px 1rem;
+  font-family: "yg-jalnan", sans-serif;
+  min-height: 100vh;
+  font-size: 1.1rem;
+}
+
+/* 상단 요약 바 */
+.info-summary-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 32px;
+  background: #fff;
+  border-radius: 20px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  padding: 24px 32px 24px 32px;
+  min-height: 64px;
+  gap: 24px;
+  font-size: 1.3rem;
+}
+.info-summary-bar .search-bar-wrap {
+  position: relative;
+  width: 100%;
+  max-width: 220px;
+}
+.info-summary-bar .search-bar-flex {
+  display: flex;
+  align-items: center;
+  height: 44px;
+}
+.info-summary-bar input.search-bar {
+  border-radius: 9999px 0 0 9999px;
+  border-right: none;
+  height: 44px;
+  width: 100%;
+  min-width: 120px;
+  max-width: 220px;
+  padding: 0 20px;
+  font-size: 1.1rem;
+  color: #444;
+  font-weight: 500;
+  background: #fff;
+  outline: none;
+  box-shadow: none;
+  border: 1.5px solid #d1d5db;
+  border-right: none;
+  text-align: center;
+}
+.info-summary-bar .search-icon-btn {
+  border-radius: 0 9999px 9999px 0;
+  border-left: none;
+  background: #fff;
+  border: 1.5px solid #d1d5db;
+  border-left: none;
+  height: 44px;
+  width: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #2563eb;
+  font-size: 18px;
+  padding: 0;
+}
+.info-summary-bar .search-icon-btn:disabled {
+  color: #a0a4b0;
+  cursor: not-allowed;
+  background: #fff;
+}
+.info-summary-bar .button-group {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+.info-summary-bar button {
+  background: #2563eb;
+  color: #fff;
+  border: none;
+  border-radius: 9999px;
+  padding: 0 24px;
+  height: 44px;
+  font-weight: 700;
+  font-size: 1.1rem;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(37, 99, 235, 0.15);
+  letter-spacing: -0.5px;
+  gap: 8px;
+}
+.info-summary-bar .company {
+  font-weight: 800;
+  font-size: 1.8rem;
+  color: #222;
+  line-height: 1;
+  letter-spacing: -0.5px;
+}
+.info-summary-bar .code {
+  color: #888;
+  font-weight: 600;
+  font-size: 1.1rem;
+  margin-left: 4px;
+  line-height: 1;
+  letter-spacing: 0.5px;
+}
+
+/* 차트 영역 */
+.chart-section {
+  background: #fff;
+  border-radius: 20px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+  padding: 32px 24px 24px 24px;
+  margin-bottom: 32px;
+  font-size: 1.1rem;
+}
+.chart-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+.chart-title {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #222;
+}
+.warn-chip {
+  background: #fff3cd;
+  color: #b28704;
+  border-radius: 12px;
+  padding: 6px 16px;
+  font-size: 1rem;
+  font-weight: 600;
+  margin-right: 6px;
+}
+.golden-chip {
+  background: #e0f7fa;
+  color: #00838f;
+  border-radius: 12px;
+  padding: 6px 16px;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+/* 보조지표 해석 카드 */
+.indicator-section {
+  display: flex;
+  gap: 24px;
+  margin-bottom: 32px;
+  margin-top: 16px;
+}
+.indicator-card {
+  flex: 1 1 0;
+  background: #f8f9fa;
+  border-radius: 20px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  padding: 24px 20px 20px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  min-width: 320px;
+  font-size: 1.1rem;
+}
+.indicator-title {
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin-bottom: 12px;
+  color: #1976d2;
+}
+.indicator-card.warn .indicator-title {
+  color: #e67c0c;
+}
+.indicator-card.good .indicator-title {
+  color: #2e7d32;
+}
+.indicator-desc {
+  font-size: 1.1rem;
+  color: #444;
+  font-weight: 500;
+}
+
+/* 재무/ESG 카드 */
+.finance-esg-section {
+  display: flex;
+  gap: 24px;
+  margin-top: 32px;
+  flex-wrap: wrap;
+}
+.finance-summary {
+  flex: 2 1 0;
+  background: #f8f9fa;
+  border-radius: 20px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+  padding: 32px 24px 24px 24px;
+  min-width: 320px;
+  display: flex;
+  flex-direction: column;
+  font-size: 1.1rem;
+}
+.finance-title {
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin-bottom: 20px;
+  color: #333;
+}
+.finance-row {
+  display: flex;
+  gap: 12px;
+}
+.finance-col {
+  flex: 1 1 0;
+  background: #f8f9fa;
+  border-radius: 12px;
+  padding: 14px 10px 10px 10px;
+  margin-right: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  min-width: 0;
+}
+.finance-label {
+  font-size: 1.01rem;
+  font-weight: 600;
+  color: #555;
+  margin-bottom: 6px;
+}
+.finance-value {
+  font-size: 0.98rem;
+  color: #333;
+  margin-bottom: 2px;
+}
+
+.esg-summary {
+  flex: 1 1 0;
+  background: #f8f9fa;
+  border-radius: 20px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+  padding: 32px 24px 24px 24px;
+  min-width: 320px;
+  display: flex;
+  flex-direction: column;
+  font-size: 1.1rem;
+}
+.esg-title {
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin-bottom: 20px;
+  color: #333;
+}
+.esg-row {
+  display: flex;
+  gap: 10px;
+}
+.esg-col {
+  flex: 1 1 0;
+  background: #f8f9fa;
+  border-radius: 12px;
+  padding: 14px 8px 10px 8px;
+  margin-right: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 0;
+}
+.esg-grade {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #8e24aa;
+  margin-bottom: 4px;
+}
+.esg-label {
+  font-size: 1.01rem;
+  font-weight: 600;
+  color: #555;
+  margin-bottom: 4px;
+}
+.esg-desc {
+  font-size: 0.97rem;
+  color: #333;
+  text-align: center;
+}
+
+/* 반응형 */
+@media (max-width: 900px) {
+  .info-main-redesign {
+    max-width: 100%;
+    padding: 0 2px 24px 2px;
+  }
+  .info-summary-bar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    padding: 14px 8px 14px 8px;
+  }
+  .chart-section {
+    padding: 12px 6px 10px 6px;
+  }
+  .indicator-section {
+    flex-direction: column;
+    gap: 10px;
+  }
+  .finance-esg-section {
+    flex-direction: column;
+    gap: 12px;
+  }
+  .finance-summary,
+  .esg-summary {
+    padding: 12px 6px 10px 6px;
+  }
+}
+
+/* 큰 제목만 yg-jalnan */
+.esg-title,
+.finance-title,
+.chart-title,
+.chart-header,
+.indicator-title,
+.indicator-title-row,
+.price-chart-area h3,
+.rsi-area h4 {
+    font-family: 'yg-jalnan', sans-serif !important;
+}
+
+/* 작은 본문/설명/표 등은 Pretendard */
+.esg-label,
+.esg-desc,
+.esg-grade,
+.finance-label,
+.finance-value,
+.financial-summary td,
+.financial-summary th,
+.indicator-desc,
+.rsi-text {
+    font-family: 'Pretendard Variable', 'Pretendard', 'Noto Sans KR', Arial, sans-serif !important;
+    font-weight: 400;
+    letter-spacing: -0.01em;
+}

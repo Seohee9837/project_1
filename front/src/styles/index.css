@@ -1,0 +1,86 @@
+/* 모든 브라우저에서 placeholder를 완전히 검정색으로 만들기 */
+.searchbar-input::placeholder {
+  color: #000 !important;
+}
+
+.searchbar-input::placeholder {
+  color: #000000 !important;
+  opacity: 1 !important;
+}
+
+.searchbar-input::-webkit-input-placeholder {
+  color: #000000 !important;
+  opacity: 1 !important;
+}
+
+.searchbar-input::-moz-placeholder {
+  color: #000000 !important;
+  opacity: 1 !important;
+}
+
+.searchbar-input:-ms-input-placeholder {
+  color: #000000 !important;
+  opacity: 1 !important;
+}
+
+.searchbar-input:-moz-placeholder {
+  color: #000000 !important;
+  opacity: 1 !important;
+}
+
+/* 더 강력한 placeholder 스타일링 */
+.searchbar-input {
+  color: #000000 !important;
+}
+
+.searchbar-input::placeholder {
+  color: #000000 !important;
+  opacity: 1 !important;
+  font-weight: 500 !important;
+}
+
+/* 모든 브라우저 대응 */
+.searchbar-input::-webkit-input-placeholder {
+  color: #000000 !important;
+  opacity: 1 !important;
+}
+.searchbar-input::-moz-placeholder {
+  color: #000000 !important;
+  opacity: 1 !important;
+}
+.searchbar-input:-ms-input-placeholder {
+  color: #000000 !important;
+  opacity: 1 !important;
+}
+.searchbar-input:-moz-placeholder {
+  color: #000000 !important;
+  opacity: 1 !important;
+}
+/* 더 강력한 placeholder 스타일링 */
+.searchbar-input {
+  color: #000000 !important;
+}
+
+.searchbar-input::placeholder {
+  color: #000000 !important;
+  opacity: 1 !important;
+  font-weight: 500 !important;
+}
+
+/* 모든 브라우저 대응 */
+.searchbar-input::-webkit-input-placeholder {
+  color: #000000 !important;
+  opacity: 1 !important;
+}
+.searchbar-input::-moz-placeholder {
+  color: #000000 !important;
+  opacity: 1 !important;
+}
+.searchbar-input:-ms-input-placeholder {
+  color: #000000 !important;
+  opacity: 1 !important;
+}
+.searchbar-input:-moz-placeholder {
+  color: #000000 !important;
+  opacity: 1 !important;
+}

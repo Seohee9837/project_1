@@ -1,0 +1,201 @@
+html,
+body {
+  /* background: none !important; */
+  /* background-image: url("/배경1.png") !important; */
+  /* background-size: cover !important; */
+  /* background-position: center !important; */
+  /* background-repeat: no-repeat !important; */
+  /* background-attachment: fixed !important; */
+  min-height: 100vh !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+body {
+  font-family: "GmarketSans", "Pretendard", "Noto Sans KR", Arial, sans-serif;
+  color: #222;
+  line-height: 1.6;
+}
+
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem;
+  background: transparent;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: #222;
+  font-weight: 900;
+  letter-spacing: 1px;
+  margin-top: 0;
+  margin-bottom: 1.2rem;
+}
+
+a {
+  color: #3182f6;
+  text-decoration: none;
+  font-weight: bold;
+  transition: color 0.2s;
+}
+a:hover {
+  color: #1b4fa0;
+}
+
+button,
+.btn {
+  background: #3182f6;
+  color: #fff;
+  border: none;
+  border-radius: 1.5rem;
+  box-shadow: 0 2px 8px #e9e9f3aa;
+  padding: 0.6rem 1.8rem;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.1s, box-shadow 0.1s;
+}
+button:hover,
+.btn:hover {
+  transform: translateY(-2px) scale(1.04);
+  box-shadow: 0 4px 16px #e9e9f3cc;
+}
+
+.card,
+.box {
+  background: #fff;
+  border-radius: 1.5rem;
+  box-shadow: 0 2px 12px #e9e9f3aa;
+  padding: 2rem 1.5rem;
+  margin: 1.5rem 0;
+  border: 1px solid #f0f0f0;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  background: #ffe0f0;
+}
+::-webkit-scrollbar-thumb {
+  background: #ffb6c1;
+  border-radius: 4px;
+}
+
+input,
+textarea,
+select {
+  border-radius: 1rem;
+  border: 1.5px solid #e0e0e0;
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  background: #fff;
+  color: #222;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+/* 검색창 placeholder 텍스트 가운데 정렬 */
+input::placeholder {
+  text-align: center;
+  color: #999999;
+  opacity: 1;
+}
+
+/* 3D 느낌 강조용 */
+.emoji-3d {
+  filter: drop-shadow(0 4px 16px #ffd6ec);
+}
+
+@font-face {
+    font-family: 'yg-jalnan';
+    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_four@1.2/JalnanOTF00.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+input.searchbar-input::placeholder {
+  font-family: "yg-jalnan", sans-serif;
+  color: #999999;
+  opacity: 1;
+  line-height: 48px;
+  text-align: center;
+}
+
+input::placeholder {
+  text-align: center;
+  color: #999999;
+  opacity: 1;
+}
+input.searchbar-input::placeholder {
+  text-align: center;
+  color: #999999;
+  opacity: 1;
+}
+input::-webkit-input-placeholder {
+  text-align: center;
+  color: #999999;
+  opacity: 1;
+}
+input.searchbar-input::-webkit-input-placeholder {
+  text-align: center;
+  color: #999999;
+  opacity: 1;
+}
+input::-moz-placeholder {
+  text-align: center;
+  color: #999999;
+  opacity: 1;
+}
+input.searchbar-input::-moz-placeholder {
+  text-align: center;
+  color: #999999;
+  opacity: 1;
+}
+input:-ms-input-placeholder {
+  text-align: center;
+  color: #999999;
+  opacity: 1;
+}
+input.searchbar-input:-ms-input-placeholder {
+  text-align: center;
+  color: #999999;
+  opacity: 1;
+}
+input::-ms-input-placeholder {
+  text-align: center;
+  color: #999999;
+  opacity: 1;
+}
+input.searchbar-input::-ms-input-placeholder {
+  text-align: center;
+  color: #999999;
+  opacity: 1;
+}
+
+.body-intro {
+  background-image: url("/배경1.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
+.body-opinion {
+  background-image: url("/3.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
+.body-info {
+  background-image: url("/2.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
